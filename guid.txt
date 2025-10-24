@@ -1,0 +1,58 @@
+   >3<  >2<  >1< >2< 
+3>  > 	>>  >>>	>>>> <2
+4>  >   >>  >>>	>>>> <1
+2>  >  	>>  >>> >>>> <2
+1>  >	>>  >>> >>>> <2
+   >1< >2<   >3< >2< 
+   
+   
+   Head From col top or up
+   
+   1 > 4 x x x
+   
+   2 > x 4 x x
+   
+   3 > x x 4 x   -> 3 is not at the first two digits before number 4
+   
+   4 > 1 2 3 4
+   
+    Head From col down 
+   
+   1 > 4 x x x
+   
+   2 > x 4 x x
+   
+   3 > x x 4 x   -> 3 is not at the first two digits before number 4
+   
+   4 > 1 2 3 4
+   
+   
+       Head From row left 
+   
+   1 > 4 x x x
+   
+   2 > x 4 x x
+   
+   3 > x x 4 x   -> 3 is not at the first two digits before number 4
+   
+   4 > 1 2 3 4
+   
+   
+          Head From row right 
+   
+   1 > 4 x x x
+   
+   2 > x 4 x x
+   
+   3 > x x 4 x   -> 3 is not at the first two digits before number 4
+   
+   4 > 1 2 3 4
+   
+   
+   
+    int [4]Yazzan = {0 , 1 , 2 , 3}
+    int  [4][4]Yazan2 = 
+    
+    pointer  head = 5  head -> next-> tail
+    		
+    
