@@ -1,7 +1,6 @@
 #include <unistd.h>
-#include <stdlib.h> // For NULL and malloc
+#include <stdlib.h> 
 
-// Struct definition
 typedef struct s_Node
 {
     int           Data;
@@ -11,24 +10,7 @@ typedef struct s_Node
     struct s_Node   *Down;
 } Node;
 
-
 Node *StartPoint00 = NULL;
-
-
-void    print(void);
-int     parseOutSideDigit(char *str, int *OutSideDigit);
-int     solve(void);
-void    InitialValue(int col1up, int col2up, int col3up, int col4up,
-                     int col1down, int col2down, int col3down, int col4down,
-                     int row1left, int row2left, int row3left, int row4left,
-                     int row1right, int row2right, int row3right, int row4right);
-int     calculate(Node *node, int is_row, int is_reverse);
-int     checkAllOutSideDigit(void);
-int     isValid(Node *node, int num);
-Node    *findEmptyCell(void);
-void    freeGrid(void); /* Added prototype for freeGrid */
-
-
 
 void    InitialValue(int col1up, int col2up, int col3up, int col4up,
                      int col1down, int col2down, int col3down, int col4down,
