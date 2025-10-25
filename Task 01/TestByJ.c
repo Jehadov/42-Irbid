@@ -15,17 +15,17 @@ typedef struct s_Node
 Node *StartPoint00 = NULL;
 
 
-void    print_grid(void);
-int     parse_clues(char *str, int *clues_out);
+void    print(void);
+int     parseOutSideDigit(char *str, int *OutSideDigit_out);
 int     solve(void);
 void    InitialValue(int col1up, int col2up, int col3up, int col4up,
                      int col1down, int col2down, int col3down, int col4down,
                      int row1left, int row2left, int row3left, int row4left,
                      int row1right, int row2right, int row3right, int row4right);
-int     calculate_view(Node *node, int is_row, int is_reverse);
-int     check_all_clues(void);
-int     is_valid_placement(Node *node, int num);
-Node    *find_empty_cell(void);
+int     calculate(Node *node, int is_row, int is_reverse);
+int     checkAllOutSideDigit(void);
+int     isValid(Node *node, int num);
+Node    *findEmptyCell(void);
 
 
 
@@ -129,7 +129,7 @@ void    InitialValue(int col1up, int col2up, int col3up, int col4up,
 }
 
 
-int calculate_view(Node *node, int isRow, int isReverse)
+int calculate(Node *node, int isRow, int isReverse)
 {
     int MaxHeight = 0;
     int CountVisibleBuilding = 0;
@@ -148,7 +148,7 @@ int calculate_view(Node *node, int isRow, int isReverse)
     return (CountVisibleBuilding);
 }
 
-int check_all_clues(void)
+int checkAllOutSideDigit(void)
 {
     Node *StartNode;
     Node *StartData = StartPoint00->Down->Right;
@@ -157,10 +157,10 @@ int check_all_clues(void)
     StartNode = StartData;
     for (int i = 0; i < 4; i++)
     {
-        if (calculate_view(StartNode, 1, 0) != StartNode->Left->Data) return 0;
+        if (calculate(StartNode, 1, 0) != StartNode->Left->Data) return 0;
         
         Node *EndNodeRow = StartNode->Right->Right->Right;
-        if (calculate_view(EndNodeRow, 1, 1) != EndNodeRow->Right->Data) return 0;
+        if (calculate(EndNodeRow, 1, 1) != EndNodeRow->Right->Data) return 0;
         
         StartNode = StartNode->Down; 
     }
@@ -169,17 +169,17 @@ int check_all_clues(void)
     StartNode = StartData;
     for (int i = 0; i < 4; i++)
     {
-        if (calculate_view(StartNode, 0, 0) != StartNode->Up->Data) return 0;
+        if (calculate(StartNode, 0, 0) != StartNode->Up->Data) return 0;
         
         Node *ColumnEndNode = StartNode->Down->Down->Down;
-        if (calculate_view(ColumnEndNode, 0, 1) != ColumnEndNode->Down->Data) return 0;
+        if (calculate(ColumnEndNode, 0, 1) != ColumnEndNode->Down->Data) return 0;
         
         StartNode = StartNode->Right; 
     }
     return (1);
 }
 
-int is_valid_placement(Node *node, int num)
+int isValid(Node *node, int num)
 {
     Node *current;
 
@@ -214,60 +214,57 @@ int is_valid_placement(Node *node, int num)
     return (1);
 }
 
-Node *find_empty_cell(void)
+Node *findEmptyCell(void)
 {
-    Node *row_start = StartPoint00->Down->Right; 
+    Node *rowStart = StartPoint00->Down->Right; 
     
     for (int i = 0; i < 4; i++)
     {
-        Node *current = row_start;
+        Node *current = rowStart;
         for (int j = 0; j < 4; j++)
         {
             if (current->Data == 0)
                 return (current);
             current = current->Right;
         }
-        row_start = row_start->Down; 
+        rowStart = rowStart->Down; 
     }
     return (NULL); 
 }
 
-// --- The Core Backtracking Solver ---
 
 int solve(void)
 {
-    Node *empty_node = find_empty_cell();
+    Node *EmptyNode = findEmptyCell();
 
-    if (empty_node == NULL)
+    if (EmptyNode == NULL)
     {
-        return (check_all_clues());
+        return (checkAllOutSideDigit());
     }
 
     for (int num = 1; num <= 4; num++)
     {
-        if (is_valid_placement(empty_node, num))
+        if (isValid(EmptyNode, num))
         {
-            empty_node->Data = num;
+            EmptyNode->Data = num;
             if (solve())
             {
                 return (1);
             }
-            empty_node->Data = 0;
+            EmptyNode->Data = 0;
         }
     }
     return (0);
 }
 
-// --- Input/Output Functions ---
-
-int parse_clues(char *str, int *clues_out)
+int parseOutSideDigit(char *str, int *OutSideDigit_out)
 {
     int count = 0;
     while (*str && count < 16)
     {
         if (*str >= '1' && *str <= '4')
         {
-            clues_out[count] = *str - '0';
+            OutSideDigit_out[count] = *str - '0';
             count++;
         }
         else if (*str != ' ')
@@ -279,27 +276,26 @@ int parse_clues(char *str, int *clues_out)
     return (count == 16);
 }
 
-void print_grid(void)
+void print(void)
 {
-    char buffer[8];
-    Node *row_start = StartPoint00->Down->Right;
+    char Digit[8];
+    Node *rowStart = StartPoint00->Down->Right;
     
     for (int i = 0; i < 4; i++)
     {
-        Node *current = row_start;
+        Node *current = rowStart;
         for (int j = 0; j < 4; j++)
         {
-            buffer[j * 2] = current->Data + '0';
-            if (j < 3)
-            {
-                buffer[j * 2 + 1] = ' ';
-            }
+            Digit[j * 2] = current->Data + '0';
+
+            if (j < 3)  Digit[j * 2 + 1] = ' ';
+
             current = current->Right;
         }
-        buffer[7] = '\n';
-        write(1, buffer, 8);
+        Digit[7] = '\n';
+        write(1, Digit, 8);
         
-        row_start = row_start->Down;
+        rowStart = rowStart->Down;
     }
 }
 
@@ -307,17 +303,17 @@ void print_grid(void)
 
 int main(int argc, char **argv)
 {
-    int clues[16];
+    int OutSideDigit[16];
 
-    parse_clues(argv[1], clues);
+    parseOutSideDigit(argv[1], OutSideDigit);
 
-    InitialValue(clues[0], clues[1], clues[2], clues[3],
-                 clues[4], clues[5], clues[6], clues[7],
-                 clues[8], clues[9], clues[10], clues[11],
-                 clues[12], clues[13], clues[14], clues[15]);
+    InitialValue(OutSideDigit[0], OutSideDigit[1], OutSideDigit[2], OutSideDigit[3],
+                 OutSideDigit[4], OutSideDigit[5], OutSideDigit[6], OutSideDigit[7],
+                 OutSideDigit[8], OutSideDigit[9], OutSideDigit[10], OutSideDigit[11],
+                 OutSideDigit[12], OutSideDigit[13], OutSideDigit[14], OutSideDigit[15]);
    
     solve();
-    print_grid();
+    print();
 
     
     return (0);
