@@ -56,3 +56,6 @@
     pointer  head = 5  head -> next-> tail
     		
     
+    
+    ./rush-01 "3 2 1 2 1 2 3 2 3 4 2 1 2 1 2 2"
+    ./rush-01 "4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2"

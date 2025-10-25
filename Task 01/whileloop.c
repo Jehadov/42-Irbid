@@ -16,7 +16,7 @@ Node *StartPoint00 = NULL;
 
 
 void    print(void);
-int     parseOutSideDigit(char *str, int *OutSideDigit_out);
+int     parseOutSideDigit(char *str, int *OutSideDigit);
 int     solve(void);
 void    InitialValue(int col1up, int col2up, int col3up, int col4up,
                      int col1down, int col2down, int col3down, int col4down,
@@ -277,14 +277,14 @@ int solve(void)
     return (0);
 }
 
-int parseOutSideDigit(char *str, int *OutSideDigit_out)
+int parseOutSideDigit(char *str, int *OutSideDigit)
 {
     int count = 0;
     while (*str && count < 16)
     {
         if (*str >= '1' && *str <= '4')
         {
-            OutSideDigit_out[count] = *str - '0';
+            OutSideDigit[count] = *str - '0';
             count++;
         }
         else if (*str != ' ')
